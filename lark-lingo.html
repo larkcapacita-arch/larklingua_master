@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lark Lingo — Speak English with Confidence</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+/* ── RESET & ROOT ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --bg:#0c0e15; --bg2:#11141d; --bg3:#181c28; --card:#161a24; --card2:#1c2030;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+  --text:#eef0f6; --text2:#8890a4; --text3:#50586a;
+  --green:#4ade80; --green-d:rgba(74,222,128,0.13); --green-d2:rgba(74,222,128,0.06);
+  --blue:#60a5fa; --blue-d:rgba(96,165,250,0.13);
+  --amber:#fbbf24; --amber-d:rgba(251,191,36,0.13);
+  --coral:#f87171; --coral-d:rgba(248,113,113,0.13);
+  --purple:#a78bfa; --purple-d:rgba(167,139,250,0.13);
+  --teal:#2dd4bf; --teal-d:rgba(45,212,191,0.1);
+  --pink:#f472b6; --pink-d:rgba(244,114,182,0.13);
+  --r:12px; --rsm:8px; --rlg:18px; --rxl:24px;
+  --font:'DM Sans',sans-serif; --serif:'DM Serif Display',serif;
+}
+body { font-family:var(--font); background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; line-height:1.6; }
+
+/* ── ANIMATED BG ── */
+.bg-orbs { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+.orb { position:absolute; border-radius:50%; filter:blur(90px); opacity:0.15; animation:drift 22s ease-in-out infinite alternate; }
+.o1 { width:550px; height:550px; background:#4ade80; top:-180px; left:-120px; animation-delay:0s; }
+.o2 { width:450px; height:450px; background:#60a5fa; top:35%; right:-120px; animation-delay:-8s; }
+.o3 { width:380px; height:380px; background:#a78bfa; bottom:-120px; left:28%; animation-delay:-16s; }
+@keyframes drift { from{transform:translate(0,0) scale(1)} to{transform:translate(50px,35px) scale(1.12)} }
+
+/* ── LAYOUT ── */
+.wrap { position:relative; z-index:1; max-width:780px; margin:0 auto; padding:0 1rem 5rem; }
+
+/* ─── ONBOARDING ─── */
+#onboarding {
+  position:fixed; inset:0; z-index:100;
+  background:var(--bg); display:flex; align-items:center; justify-content:center;
+  padding:1.5rem;
+}
+.ob-card {
+  width:100%; max-width:480px;
+  background:var(--card); border:1px solid var(--border2);
+  border-radius:var(--rlg); padding:2.5rem 2rem; text-align:center;
+}
+.ob-logo { font-size:48px; margin-bottom:1rem; }
+.ob-title { font-family:var(--serif); font-size:32px; margin-bottom:6px; }
+.ob-sub { font-size:14px; color:var(--text2); margin-bottom:2rem; }
+.ob-label { font-size:12px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--text3); margin-bottom:8px; text-align:left; }
+.ob-input {
+  width:100%; padding:12px 16px; border-radius:var(--r);
+  background:var(--bg3); border:1px solid var(--border2);
+  color:var(--text); font-family:var(--font); font-size:15px; outline:none;
+  transition:border-color .2s; margin-bottom:1.5rem;
+}
+.ob-input:focus { border-color:var(--green); }
+.grade-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:2rem; }
+.grade-card {
+  padding:16px 8px; border-radius:var(--r); border:1px solid var(--border);
+  background:var(--bg2); cursor:pointer; transition:all .2s; text-align:center;
+}
+.grade-card:hover { border-color:var(--border2); background:var(--bg3); }
+.grade-card.selected { border-color:rgba(74,222,128,.45); background:var(--green-d); }
+.grade-card .gc-emoji { font-size:28px; margin-bottom:6px; display:block; }
+.grade-card .gc-label { font-size:13px; font-weight:500; color:var(--text2); }
+.grade-card.selected .gc-label { color:var(--green); }
+.grade-card .gc-sub { font-size:11px; color:var(--text3); margin-top:2px; }
+.ob-btn {
+  width:100%; padding:14px; border-radius:var(--r);
+  background:var(--green-d); border:1px solid rgba(74,222,128,.35);
+  color:var(--green); font-family:var(--font); font-size:15px; font-weight:600;
+  cursor:pointer; transition:all .2s;
+}
+.ob-btn:hover { background:rgba(74,222,128,.22); }
+.ob-btn:disabled { opacity:.4; pointer-events:none; }
+
+/* ─── HEADER ─── */
+header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1.5rem 0 1rem; border-bottom:1px solid var(--border); margin-bottom:2rem;
+  flex-wrap:wrap; gap:10px;
+}
+.logo-g { display:flex; align-items:center; gap:10px; }
+.logo-icon {
+  width:42px; height:42px; border-radius:13px;
+  background:var(--green-d); border:1px solid rgba(74,222,128,.3);
+  display:flex; align-items:center; justify-content:center; font-size:20px;
+}
+.logo-name { font-family:var(--serif); font-size:21px; font-weight:400; line-height:1; }
+.logo-sub { font-size:11px; color:var(--text3); margin-top:2px; }
+.hdr-right { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.badge-pill {
+  display:flex; align-items:center; gap:5px; padding:5px 12px;
+  border-radius:20px; border:1px solid var(--border); background:var(--card);
+  font-size:12px; font-weight:500;
+}
+.badge-pill.xp { border-color:rgba(74,222,128,.25); color:var(--green); background:var(--green-d2); }
+.badge-pill.str { border-color:rgba(251,191,36,.25); color:var(--amber); background:var(--amber-d); }
+.badge-pill.user { border-color:var(--border2); color:var(--text2); }
+.dot6 { width:6px; height:6px; border-radius:50%; background:currentColor; }
+
+/* ─── NAV ─── */
+.nav-tabs {
+  display:flex; gap:4px;
+  background:var(--card); border:1px solid var(--border);
+  border-radius:var(--rxl); padding:4px; margin-bottom:2rem;
+}
+.nav-tab {
+  flex:1; padding:9px 12px; border-radius:20px; border:none;
+  background:transparent; font-family:var(--font); font-size:13px; font-weight:500;
+  color:var(--text3); cursor:pointer; transition:all .2s; white-space:nowrap;
+}
+.nav-tab.act { background:var(--bg3); color:var(--text); border:1px solid var(--border2); }
+
+/* ─── PAGES ─── */
+.page { display:none; }
+.page.act { display:block; animation:fadeUp .25s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* ─── SECTION LABELS ─── */
+.sec { margin-bottom:1.25rem; }
+.sec-lbl { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text3); margin-bottom:8px; }
+
+/* ─── PILLS ─── */
+.pill-row { display:flex; gap:6px; flex-wrap:wrap; }
+.pill {
+  padding:6px 16px; border-radius:20px; border:1px solid var(--border);
+  background:transparent; font-size:13px; font-family:var(--font); font-weight:400;
+  color:var(--text2); cursor:pointer; transition:all .18s;
+}
+.pill:hover { border-color:var(--border2); color:var(--text); }
+.pill.ag { border-color:rgba(74,222,128,.4); background:var(--green-d); color:var(--green); font-weight:500; }
+.pill.ab { border-color:rgba(96,165,250,.4); background:var(--blue-d); color:var(--blue); font-weight:500; }
+.pill.aa { border-color:rgba(251,191,36,.4); background:var(--amber-d); color:var(--amber); font-weight:500; }
+.pill.ap { border-color:rgba(167,139,250,.4); background:var(--purple-d); color:var(--purple); font-weight:500; }
+.pill.ac { border-color:rgba(248,113,113,.4); background:var(--coral-d); color:var(--coral); font-weight:500; }
+
+/* ─── DROPDOWNS ─── */
+.drop-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:1.25rem; }
+@media(max-width:480px){ .drop-row { grid-template-columns:1fr; } }
+.drop-wrap { display:flex; flex-direction:column; gap:6px; }
+.drop-lbl { font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--text3); }
+.drop-select {
+  width:100%; padding:10px 14px; border-radius:var(--r);
+  background:var(--card); border:1px solid var(--border2);
+  color:var(--text); font-family:var(--font); font-size:13px;
+  cursor:pointer; outline:none; appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238890a4' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 12px center;
+  padding-right:36px; transition:border-color .2s;
+}
+.drop-select:focus { border-color:var(--green); }
+.drop-select option { background:var(--bg2); color:var(--text); }
+
+/* ─── PROMPT CARD ─── */
+.prompt-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:var(--rlg); padding:1.5rem; margin-bottom:1.5rem;
+  position:relative; overflow:hidden; transition:border-color .3s;
+}
+.prompt-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--green),var(--teal)); opacity:.7;
+}
+.prompt-card.debate::before { background:linear-gradient(90deg,var(--purple),var(--coral)); }
+.prompt-card.discuss::before { background:linear-gradient(90deg,var(--blue),var(--teal)); }
+.prompt-hdr {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:10px;
+}
+.prompt-num { font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--text3); }
+.prompt-tag {
+  padding:2px 10px; border-radius:10px; font-size:11px; font-weight:500;
+  background:var(--green-d); color:var(--green); border:1px solid rgba(74,222,128,.2);
+}
+.prompt-tag.debate { background:var(--purple-d); color:var(--purple); border-color:rgba(167,139,250,.2); }
+.prompt-tag.discuss { background:var(--blue-d); color:var(--blue); border-color:rgba(96,165,250,.2); }
+.prompt-q {
+  font-family:var(--serif); font-size:21px; color:var(--text);
+  line-height:1.45; margin-bottom:12px; font-weight:400;
+}
+.prompt-ctx {
+  font-size:13px; color:var(--text2); background:var(--bg3);
+  border-radius:var(--rsm); padding:10px 14px;
+  border-left:2px solid var(--green); margin-bottom:12px; line-height:1.55;
+}
+.prompt-ctx.debate { border-left-color:var(--purple); }
+.prompt-ctx.discuss { border-left-color:var(--blue); }
+.hint-box {
+  font-size:13px; color:var(--teal); background:var(--teal-d);
+  border:1px solid rgba(45,212,191,.2); border-radius:var(--rsm);
+  padding:10px 14px; margin-bottom:12px; line-height:1.5;
+  display:none; animation:fadeUp .2s ease;
+}
+.prompt-acts { display:flex; gap:8px; flex-wrap:wrap; }
+
+/* ─── QUICK CHIPS (Gr 1-3 only) ─── */
+.chips-wrap { margin-bottom:10px; }
+.chips-lbl { font-size:11px; color:var(--text3); margin-bottom:6px; font-weight:500; }
+.chips { display:flex; gap:6px; flex-wrap:wrap; }
+.chip {
+  padding:6px 14px; border-radius:16px;
+  background:var(--blue-d); border:1px solid rgba(96,165,250,.25);
+  color:var(--blue); font-size:12px; font-weight:500; cursor:pointer;
+  transition:all .18s;
+}
+.chip:hover { background:rgba(96,165,250,.22); }
+
+/* ─── BUTTONS ─── */
+.btn {
+  padding:8px 18px; border-radius:var(--rsm);
+  border:1px solid var(--border2); background:transparent;
+  font-family:var(--font); font-size:13px; font-weight:500;
+  color:var(--text2); cursor:pointer; transition:all .18s;
+}
+.btn:hover { background:var(--bg3); color:var(--text); }
+.btn.prim { background:var(--green-d); border-color:rgba(74,222,128,.3); color:var(--green); }
+.btn.prim:hover { background:rgba(74,222,128,.2); }
+.btn.voice {
+  background:var(--blue-d); border-color:rgba(96,165,250,.3); color:var(--blue);
+  display:flex; align-items:center; gap:6px;
+}
+.btn.voice:hover { background:rgba(96,165,250,.2); }
+.btn.voice.rec { background:var(--coral-d); border-color:rgba(248,113,113,.4); color:var(--coral); animation:pulse 1.2s ease infinite; }
+.btn.send-btn {
+  padding:10px 20px; border-radius:var(--rsm);
+  background:var(--green-d); border:1px solid rgba(74,222,128,.3);
+  color:var(--green); font-size:13px; font-weight:600; white-space:nowrap;
+}
+.btn.send-btn:hover { background:rgba(74,222,128,.2); }
+.btn.send-btn:disabled { opacity:.4; pointer-events:none; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.55} }
+
+/* ─── PROGRESS DOTS ─── */
+.pdots { display:flex; align-items:center; gap:5px; margin-top:12px; }
+.pdot {
+  width:6px; height:6px; border-radius:50%;
+  background:var(--bg3); border:1px solid var(--border2); cursor:pointer; transition:all .2s;
+}
+.pdot.done { background:var(--text3); border-color:var(--text3); }
+.pdot.cur { background:var(--green); border-color:var(--green); width:18px; border-radius:3px; }
+.pdot-lbl { font-size:12px; color:var(--text3); margin-left:4px; }
+
+/* ─── CHAT ─── */
+.chat-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.coach-ident { display:flex; align-items:center; gap:8px; }
+.coach-av {
+  width:32px; height:32px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; flex-shrink:0;
+}
+.coach-av.g1 { background:#FFF3CD; border:2px solid #fbbf24; }
+.coach-av.g2 { background:var(--green-d); border:2px solid rgba(74,222,128,.4); }
+.coach-av.g3 { background:var(--purple-d); border:2px solid rgba(167,139,250,.4); }
+.coach-name { font-size:13px; font-weight:500; }
+.coach-name.g1 { color:var(--amber); }
+.coach-name.g2 { color:var(--green); }
+.coach-name.g3 { color:var(--purple); }
+.online-dot { width:7px; height:7px; border-radius:50%; background:var(--green); animation:blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.chat-win {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:var(--rlg); padding:1rem;
+  min-height:200px; max-height:300px; overflow-y:auto; scroll-behavior:smooth;
+}
+.chat-win::-webkit-scrollbar { width:3px; }
+.chat-win::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+
+.msg { display:flex; gap:9px; margin-bottom:12px; align-items:flex-start; animation:fadeUp .25s ease; }
+.msg.user { flex-direction:row-reverse; }
+.av {
+  width:30px; height:30px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:600;
+}
+.msg.ai .av { background:var(--green-d); border:1px solid rgba(74,222,128,.2); color:var(--green); }
+.msg.ai.g1 .av { background:#FFF3CD; border-color:rgba(251,191,36,.3); color:#a16207; font-size:15px; }
+.msg.ai.g3 .av { background:var(--purple-d); border-color:rgba(167,139,250,.2); color:var(--purple); }
+.msg.user .av { background:var(--blue-d); border:1px solid rgba(96,165,250,.2); color:var(--blue); }
+.bubble {
+  padding:10px 14px; border-radius:var(--r); font-size:14px;
+  line-height:1.55; max-width:84%;
+}
+.msg.ai .bubble { background:var(--bg3); border:1px solid var(--border); color:var(--text); border-bottom-left-radius:3px; }
+.msg.user .bubble { background:var(--blue-d); border:1px solid rgba(96,165,250,.2); color:var(--text); border-bottom-right-radius:3px; }
+.msg.ai.debate .bubble { background:var(--purple-d); border-color:rgba(167,139,250,.15); }
+.msg.ai.discuss .bubble { background:var(--blue-d); border-color:rgba(96,165,250,.15); }
+
+.thinking-dots { display:flex; gap:4px; align-items:center; padding:4px 0; }
+.thinking-dots span { width:7px; height:7px; border-radius:50%; background:var(--text3); animation:tdot 1.2s infinite; }
+.thinking-dots span:nth-child(2){animation-delay:.2s}
+.thinking-dots span:nth-child(3){animation-delay:.4s}
+@keyframes tdot{0%,80%,100%{opacity:.2;transform:scale(1)}40%{opacity:1;transform:scale(1.2)}}
+
+.input-area { display:flex; gap:8px; margin-top:8px; }
+.chat-inp {
+  flex:1; padding:10px 14px; background:var(--card);
+  border:1px solid var(--border2); border-radius:var(--rsm);
+  color:var(--text); font-family:var(--font); font-size:14px;
+  outline:none; transition:border-color .2s;
+}
+.chat-inp:focus { border-color:rgba(74,222,128,.4); }
+.chat-inp::placeholder { color:var(--text3); }
+
+/* ─── FEEDBACK ─── */
+.fb-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:var(--rlg); padding:1.25rem; margin-top:1rem;
+  display:none; animation:fadeUp .3s ease;
+}
+.fb-title { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; color:var(--text3); margin-bottom:12px; }
+.score-rows { display:grid; gap:10px; margin-bottom:14px; }
+.score-row { display:flex; align-items:center; gap:10px; }
+.score-lbl { font-size:13px; color:var(--text2); width:120px; flex-shrink:0; }
+.score-track { flex:1; height:5px; background:var(--bg3); border-radius:3px; overflow:hidden; }
+.score-fill { height:100%; border-radius:3px; transition:width .8s cubic-bezier(.4,0,.2,1); width:0; }
+.sf-gram { background:linear-gradient(90deg,var(--green),var(--teal)); }
+.sf-pron { background:linear-gradient(90deg,var(--blue),var(--purple)); }
+.sf-arg  { background:linear-gradient(90deg,var(--amber),var(--coral)); }
+.score-num { font-size:12px; font-weight:600; width:34px; text-align:right; }
+.sn-g { color:var(--green); } .sn-b { color:var(--blue); } .sn-a { color:var(--amber); }
+.tips-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+@media(max-width:480px){.tips-grid{grid-template-columns:1fr}}
+.tip-box { background:var(--bg3); border-radius:var(--rsm); padding:10px 12px; border:1px solid var(--border); }
+.tip-lbl { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px; }
+.tip-lbl.g { color:var(--green); } .tip-lbl.b { color:var(--blue); } .tip-lbl.a { color:var(--amber); }
+.tip-txt { font-size:13px; color:var(--text2); line-height:1.5; }
+
+/* ─── AI ENCOURAGEMENT banner ─── */
+.encourage {
+  display:flex; align-items:center; gap:10px;
+  background:var(--green-d2); border:1px solid rgba(74,222,128,.15);
+  border-radius:var(--r); padding:10px 14px; margin-top:10px;
+  font-size:13px; color:var(--green); display:none; animation:fadeUp .3s ease;
+}
+
+/* ─── DEBATE PARTNER ─── */
+.partner-bar {
+  display:flex; align-items:center; gap:14px;
+  background:var(--purple-d); border:1px solid rgba(167,139,250,.2);
+  border-radius:var(--rlg); padding:1rem 1.25rem; margin-bottom:1.25rem;
+}
+.partner-av {
+  width:48px; height:48px; border-radius:50%;
+  background:var(--purple-d); border:2px solid rgba(167,139,250,.4);
+  display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0;
+}
+.pname { font-size:14px; font-weight:500; color:var(--purple); }
+.pdesc { font-size:12px; color:var(--text2); margin-top:2px; }
+
+/* ─── MODE TOGGLE ─── */
+.mode-toggle { display:flex; gap:6px; margin-bottom:1.25rem; }
+.mode-btn {
+  flex:1; padding:10px 16px; border-radius:var(--r); border:1px solid var(--border);
+  background:transparent; font-family:var(--font); font-size:13px; font-weight:500;
+  color:var(--text2); cursor:pointer; transition:all .2s; text-align:center;
+}
+.mode-btn:hover { border-color:var(--border2); color:var(--text); }
+.mode-btn.sel-debate { border-color:rgba(167,139,250,.4); background:var(--purple-d); color:var(--purple); }
+.mode-btn.sel-discuss { border-color:rgba(96,165,250,.4); background:var(--blue-d); color:var(--blue); }
+
+/* ─── PROGRESS PAGE ─── */
+.ov-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:1.5rem; }
+@media(max-width:400px){.ov-grid{grid-template-columns:1fr 1fr}}
+.ov-card { background:var(--card); border:1px solid var(--border); border-radius:var(--r); padding:16px; }
+.ov-val { font-size:28px; font-weight:600; line-height:1; margin-bottom:4px; }
+.ov-lbl { font-size:12px; color:var(--text3); }
+.badges-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:8px; }
+.badge-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:var(--r); padding:14px; text-align:center; transition:all .25s;
+}
+.badge-card.earned { border-color:rgba(74,222,128,.3); background:var(--green-d2); }
+.badge-card.locked { opacity:.35; }
+.b-icon { font-size:24px; margin-bottom:6px; display:block; }
+.b-name { font-size:12px; font-weight:500; color:var(--text2); }
+.badge-card.earned .b-name { color:var(--green); }
+.b-desc { font-size:11px; color:var(--text3); margin-top:2px; }
+
+/* ─── TOAST ─── */
+.toast {
+  position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(20px);
+  background:var(--card2); border:1px solid var(--border2);
+  border-radius:var(--r); padding:12px 20px;
+  display:flex; align-items:center; gap:10px;
+  font-size:14px; font-weight:500; color:var(--text);
+  opacity:0; transition:all .35s ease; z-index:200;
+  box-shadow:0 8px 40px rgba(0,0,0,.5); pointer-events:none;
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.toast-icon { font-size:20px; }
+
+/* ─── XP BURST ─── */
+.xp-burst {
+  position:fixed; pointer-events:none; z-index:300;
+  font-size:16px; font-weight:700; color:var(--green);
+  opacity:0; animation:burst .9s ease forwards;
+}
+@keyframes burst { 0%{opacity:1;transform:translateY(0) scale(1)} 100%{opacity:0;transform:translateY(-60px) scale(1.3)} }
+
+/* ─── MISC ─── */
+.sep { height:1px; background:var(--border); margin:1.5rem 0; }
+.empty-state { text-align:center; padding:3rem 1rem; color:var(--text3); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="bg-orbs"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+
+<!-- ════════ ONBOARDING ════════ -->
+<div id="onboarding">
+  <div class="ob-card">
+    <div class="ob-logo">🦜</div>
+    <h1 class="ob-title">Lark Lingo</h1>
+    <p class="ob-sub">Your personal English speaking coach — for every grade, every learner.</p>
+
+    <div class="ob-label">What is your name?</div>
+    <input class="ob-input" id="nameInput" placeholder="Type your name here…" maxlength="30" oninput="checkOb()"/>
+
+    <div class="ob-label">Pick your grade group</div>
+    <div class="grade-cards">
+      <div class="grade-card" onclick="selectGrade(1,this)">
+        <span class="gc-emoji">🌱</span>
+        <div class="gc-label">Grades 1–3</div>
+        <div class="gc-sub">Ages 6–9</div>
+      </div>
+      <div class="grade-card" onclick="selectGrade(2,this)">
+        <span class="gc-emoji">📚</span>
+        <div class="gc-label">Grades 4–7</div>
+        <div class="gc-sub">Ages 9–13</div>
+      </div>
+      <div class="grade-card" onclick="selectGrade(3,this)">
+        <span class="gc-emoji">🎓</span>
+        <div class="gc-label">Grades 8–12</div>
+        <div class="gc-sub">Ages 13–18</div>
+      </div>
+    </div>
+
+    <button class="ob-btn" id="obBtn" disabled onclick="startApp()">Let's start! →</button>
+  </div>
+</div>
+
+<!-- ════════ MAIN APP ════════ -->
+<div id="app" style="display:none">
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-g">
+      <div class="logo-icon">🦜</div>
+      <div>
+        <div class="logo-name">Lark Lingo</div>
+        <div class="logo-sub">Speak English with confidence</div>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <div class="badge-pill user"><span id="hdrName">Student</span></div>
+      <div class="badge-pill str"><div class="dot6"></div><span id="hdrStreak">0</span>&nbsp;streak</div>
+      <div class="badge-pill xp"><div class="dot6"></div><span id="hdrXP">0</span>&nbsp;XP</div>
+    </div>
+  </header>
+
+  <!-- NAV TABS -->
+  <div class="nav-tabs">
+    <button class="nav-tab act" onclick="showPage('practice',this)">🗣 Practice</button>
+    <button class="nav-tab" onclick="showPage('debate',this)" id="debateNavBtn">⚖️ Debate &amp; Discuss</button>
+    <button class="nav-tab" onclick="showPage('progress',this)">🏆 My Progress</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PAGE 1: PRACTICE
+  ═══════════════════════════════════════ -->
+  <div id="page-practice" class="page act">
+
+    <div class="sec">
+      <div class="sec-lbl">Grade group</div>
+      <div class="pill-row" id="gradePills">
+        <button class="pill ag" onclick="setGrade(1,this)">Grades 1–3</button>
+        <button class="pill" onclick="setGrade(2,this)">Grades 4–7</button>
+        <button class="pill" onclick="setGrade(3,this)">Grades 8–12</button>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-lbl">Level</div>
+      <div class="pill-row" id="levelPills">
+        <button class="pill ag" onclick="setLevel('beginner',this,'ag')">Beginner</button>
+        <button class="pill" onclick="setLevel('intermediate',this,'aa')">Intermediate</button>
+        <button class="pill" onclick="setLevel('advanced',this,'ap')">Advanced</button>
+      </div>
+    </div>
+
+    <div class="drop-row">
+      <div class="drop-wrap">
+        <div class="drop-lbl">Category</div>
+        <select class="drop-select" id="catSelect" onchange="onCatChange()"></select>
+      </div>
+      <div class="drop-wrap">
+        <div class="drop-lbl">Topic</div>
+        <select class="drop-select" id="topicSelect" onchange="onTopicChange()"></select>
+      </div>
+    </div>
+
+    <!-- Prompt card -->
+    <div class="prompt-card" id="practiceCard">
+      <div class="prompt-hdr">
+        <span class="prompt-num" id="pNum">Topic 1 of 1</span>
+        <span class="prompt-tag" id="pTag">Speaking</span>
+      </div>
+      <div class="prompt-q" id="pQuestion">Select a category and topic above to get started!</div>
+      <div class="prompt-ctx" id="pCtx" style="display:none"></div>
+      <div class="hint-box" id="pHint"></div>
+      <div class="prompt-acts">
+        <button class="btn prim" onclick="nextTopic()">Next topic →</button>
+        <button class="btn" onclick="toggleHint('pHint')">💡 Hint</button>
+        <button class="btn" onclick="shuffleTopic()">🔀 Shuffle</button>
+        <button class="btn" onclick="clearPracticeChat()">Clear chat</button>
+      </div>
+      <div class="pdots" id="pDots"></div>
+    </div>
+
+    <!-- Quick reply chips (Gr 1-3 only) -->
+    <div class="chips-wrap" id="chipsWrap" style="display:none">
+      <div class="chips-lbl">Need a starter? Tap a phrase:</div>
+      <div class="chips" id="chipsRow"></div>
+    </div>
+
+    <!-- Chat -->
+    <div class="chat-hdr">
+      <div class="coach-ident">
+        <div class="coach-av g1" id="coachAv">☀️</div>
+        <div>
+          <div class="coach-name g1" id="coachName">Sunny</div>
+          <div style="font-size:11px;color:var(--text3)" id="coachRole">Your friendly coach</div>
+        </div>
+        <div class="online-dot" style="margin-left:6px"></div>
+      </div>
+      <div style="font-size:12px;color:var(--text3)" id="sessionScore"></div>
+    </div>
+    <div class="chat-win" id="chatWin"></div>
+    <div class="input-area">
+      <button class="btn voice" id="voiceBtn" onclick="toggleVoice('voiceBtn','chatIp',false)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        <span id="voiceLbl">Speak</span>
+      </button>
+      <input class="chat-inp" id="chatIp" placeholder="Type your answer here…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendPractice()}"/>
+      <button class="btn send-btn" id="sendBtn" onclick="sendPractice()">Send →</button>
+    </div>
+
+    <!-- Feedback -->
+    <div class="fb-card" id="fbCard">
+      <div class="fb-title">Feedback on your response</div>
+      <div class="score-rows">
+        <div class="score-row">
+          <div class="score-lbl">Grammar</div>
+          <div class="score-track"><div class="score-fill sf-gram" id="fbGram"></div></div>
+          <div class="score-num sn-g" id="fbGramN">–</div>
+        </div>
+        <div class="score-row">
+          <div class="score-lbl">Fluency / clarity</div>
+          <div class="score-track"><div class="score-fill sf-pron" id="fbPron"></div></div>
+          <div class="score-num sn-b" id="fbPronN">–</div>
+        </div>
+      </div>
+      <div class="tips-grid">
+        <div class="tip-box"><div class="tip-lbl g">Grammar tip</div><div class="tip-txt" id="fbGramTip">—</div></div>
+        <div class="tip-box"><div class="tip-lbl b">Pronunciation tip</div><div class="tip-txt" id="fbPronTip">—</div></div>
+      </div>
+    </div>
+    <div class="encourage" id="encourageBox"></div>
+
+  </div><!-- /page-practice -->
+
+  <!-- ═══════════════════════════════════════
+       PAGE 2: DEBATE & DISCUSSION
+  ═══════════════════════════════════════ -->
+  <div id="page-debate" class="page">
+
+    <div class="mode-toggle">
+      <button class="mode-btn sel-debate" id="modeDebate" onclick="setMode('debate',this)">⚖️ Debate</button>
+      <button class="mode-btn" id="modeDiscuss" onclick="setMode('discuss',this)">💬 Free Discussion</button>
+    </div>
+
+    <div id="g812warn" style="display:none;background:var(--amber-d);border:1px solid rgba(251,191,36,.25);border-radius:var(--r);padding:10px 14px;font-size:13px;color:var(--amber);margin-bottom:1rem">
+      ⚠️ Debate &amp; Discussion is designed for Grades 8–12. It's still available to all grades, but topics may be challenging!
+    </div>
+
+    <div class="drop-row">
+      <div class="drop-wrap">
+        <div class="drop-lbl">Category</div>
+        <select class="drop-select" id="dCatSelect" onchange="onDCatChange()"></select>
+      </div>
+      <div class="drop-wrap">
+        <div class="drop-lbl">Topic</div>
+        <select class="drop-select" id="dTopicSelect" onchange="onDTopicChange()"></select>
+      </div>
+    </div>
+
+    <div class="prompt-card debate" id="debateCard">
+      <div class="prompt-hdr">
+        <span class="prompt-num" id="dNum">Topic 1</span>
+        <span class="prompt-tag debate" id="dTag">Debate</span>
+      </div>
+      <div class="prompt-q" id="dQuestion">Choose a category and topic to begin.</div>
+      <div class="prompt-ctx debate" id="dCtx"></div>
+      <div class="hint-box" id="dHint"></div>
+      <div class="prompt-acts">
+        <button class="btn prim" id="startDebateBtn" onclick="startDebate()">Start discussion →</button>
+        <button class="btn" onclick="toggleHint('dHint')">💡 Hint</button>
+      </div>
+    </div>
+
+    <div id="debateChatSection" style="display:none">
+      <div class="partner-bar">
+        <div class="partner-av" id="partnerAv">🤖</div>
+        <div>
+          <div class="pname" id="partnerName">Alex</div>
+          <div class="pdesc" id="partnerDesc">Neutral discussion partner · Global issues</div>
+        </div>
+        <div class="online-dot" style="margin-left:auto"></div>
+      </div>
+
+      <div class="chat-win" id="debateWin" style="max-height:320px"></div>
+      <div class="input-area">
+        <button class="btn voice" id="dVoiceBtn" onclick="toggleVoice('dVoiceBtn','debateIp',true)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          <span id="dVoiceLbl">Speak</span>
+        </button>
+        <input class="chat-inp" id="debateIp" placeholder="Share your argument or thoughts…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendDebate()}"/>
+        <button class="btn send-btn" id="dSendBtn" onclick="sendDebate()">Send →</button>
+      </div>
+
+      <div class="fb-card" id="dFbCard" style="display:none">
+        <div class="fb-title">Feedback</div>
+        <div class="score-rows">
+          <div class="score-row">
+            <div class="score-lbl">Grammar</div>
+            <div class="score-track"><div class="score-fill sf-gram" id="dFbGram"></div></div>
+            <div class="score-num sn-g" id="dFbGramN">–</div>
+          </div>
+          <div class="score-row">
+            <div class="score-lbl">Argument strength</div>
+            <div class="score-track"><div class="score-fill sf-arg" id="dFbArg"></div></div>
+            <div class="score-num sn-a" id="dFbArgN">–</div>
+          </div>
+        </div>
+        <div class="tips-grid">
+          <div class="tip-box"><div class="tip-lbl g">Grammar tip</div><div class="tip-txt" id="dFbGramTip">—</div></div>
+          <div class="tip-box"><div class="tip-lbl a">Argument tip</div><div class="tip-txt" id="dFbArgTip">—</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /page-debate -->
+
+  <!-- ═══════════════════════════════════════
+       PAGE 3: PROGRESS
+  ═══════════════════════════════════════ -->
+  <div id="page-progress" class="page">
+    <div class="ov-grid">
+      <div class="ov-card"><div class="ov-val" id="ovXP" style="color:var(--green)">0</div><div class="ov-lbl">Total XP</div></div>
+      <div class="ov-card"><div class="ov-val" id="ovStreak" style="color:var(--amber)">0</div><div class="ov-lbl">Day streak</div></div>
+      <div class="ov-card"><div class="ov-val" id="ovResp" style="color:var(--blue)">0</div><div class="ov-lbl">Responses</div></div>
+    </div>
+    <div class="sep"></div>
+    <div class="sec-lbl" style="margin-bottom:12px">Badges earned</div>
+    <div class="badges-grid" id="badgesGrid"></div>
+  </div>
+
+</div><!-- /wrap -->
+</div><!-- /app -->
+
+<!-- Toast -->
+<div class="toast" id="toast"><span class="toast-icon" id="toastIcon"></span><span id="toastMsg"></span></div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════ */
+
+// PRACTICE TOPICS organized by grade → category → topics
+const PRACTICE_DATA = {
+  1: {
+    categories: [
+      { id:'school', label:'🏫 School Life', topics:[
+        { t:'My favourite teacher', q:'Tell me about your favourite teacher! What do they teach?', ctx:'Your English coach wants to know about your school.', hint:'Say the teacher\'s name, what subject they teach, and why you like them.' },
+        { t:'My classroom', q:'What does your classroom look like? What is in it?', ctx:'Describe your classroom to a friend who has never seen it.', hint:'Talk about the colour, desks, board, pictures on the wall.' },
+        { t:'School tuck shop', q:'What do you like to buy at the tuck shop?', ctx:'It\'s break time and you\'re at the school tuck shop.', hint:'Name your favourite snack or drink and say why you love it.' },
+        { t:'My school bag', q:'What is inside your school bag today?', ctx:'A new student wants to know what to bring to school.', hint:'Name 3 things inside your bag and why you need them.' },
+        { t:'Assembly time', q:'What happens at your school assembly?', ctx:'Describing your morning school routine.', hint:'What do you do, who speaks, do you sing?' },
+      ]},
+      { id:'family', label:'👨‍👩‍👧 My Family', topics:[
+        { t:'My family', q:'Tell me about your family! Who lives in your house?', ctx:'Your coach wants to meet your family through your words.', hint:'Say how many people, their names, and one thing you love about each.' },
+        { t:'Weekend with family', q:'What did you do with your family last weekend?', ctx:'Monday morning — sharing your weekend story.', hint:'Use the words "we went", "we ate", "we played".' },
+        { t:'My favourite meal', q:'What is your favourite meal that your family makes?', ctx:'Talking about food you love at home.', hint:'Name the dish, who makes it, and one ingredient.' },
+        { t:'A family trip', q:'Tell me about a special trip or outing your family went on!', ctx:'Your class is sharing travel stories.', hint:'Where did you go? What did you see? How did you feel?' },
+        { t:'Helping at home', q:'How do you help at home? What chores do you do?', ctx:'Learning about responsibilities at home.', hint:'Name two chores and say which one you like or dislike.' },
+      ]},
+      { id:'animals', label:'🐾 Animals & Nature', topics:[
+        { t:'My pet or favourite animal', q:'Do you have a pet? Or what is your favourite animal and why?', ctx:'Your class is doing a pet and animal show-and-tell.', hint:'Name the animal, describe it, and say one thing it does.' },
+        { t:'Animals at the zoo', q:'If you visited a zoo, which animal would you most want to see?', ctx:'Planning a school trip to the zoo.', hint:'Name the animal, say what it looks like, and why it is your favourite.' },
+        { t:'The weather today', q:'What is the weather like today? Tell me what you see outside!', ctx:'Morning weather report for the class.', hint:'Say if it is sunny, rainy, or windy — and how it makes you feel.' },
+        { t:'In the garden', q:'What things do you see or find in a garden?', ctx:'Science lesson about nature outside.', hint:'Name three things — like flowers, insects, or birds.' },
+      ]},
+      { id:'fun', label:'🎮 Fun & Hobbies', topics:[
+        { t:'My favourite game', q:'What is your favourite game to play? How do you play it?', ctx:'Break time — friends are choosing what to play.', hint:'Name the game, say how many players, and one fun rule.' },
+        { t:'My favourite book or story', q:'What is your favourite book or story? What happens in it?', ctx:'Library reading challenge time.', hint:'Say the title, the main character, and your favourite part.' },
+        { t:'Drawing and art', q:'Do you like drawing or painting? What do you love to draw?', ctx:'Art class — sharing what you made.', hint:'Say what you drew, what colours you used, and why you chose that.' },
+        { t:'My favourite TV show or cartoon', q:'What is your favourite show or cartoon? Tell me about it!', ctx:'Talking about what you watch at home.', hint:'Name the show, name one character, and say the funniest or most exciting part.' },
+      ]},
+      { id:'myself', label:'🌟 About Me', topics:[
+        { t:'Introduce myself', q:'Hello! Tell me your name, your grade, and one fun thing about you!', ctx:'Meeting your AI coach for the first time.', hint:'Say: My name is… I am in grade… I love…' },
+        { t:'My best friend', q:'Tell me about your best friend! What do you do together?', ctx:'Sharing about the people you care about.', hint:'Name your friend, describe them, and say your favourite activity together.' },
+        { t:'My birthday', q:'When is your birthday and how do you celebrate it?', ctx:'The class is sharing birthday traditions.', hint:'Say the date, who comes, and your favourite part of the celebration.' },
+        { t:'What I want to be', q:'What do you want to be when you grow up? Why?', ctx:'Career day in your class.', hint:'Name the job, give one reason, and say one thing you would do in that job.' },
+      ]},
+    ]
+  },
+  2: {
+    categories: [
+      { id:'school', label:'🏫 School & Learning', topics:[
+        { t:'My favourite subject', q:'What is your favourite school subject and why do you enjoy it?', ctx:'Your teacher is asking students to share their learning preferences.', hint:'Name the subject, give two reasons, and mention a topic you loved studying.' },
+        { t:'Homework habits', q:'How do you organise your homework? Give me your top tip!', ctx:'Helping a younger student who struggles with homework.', hint:'Talk about when, where, and how you do homework. Be specific!' },
+        { t:'A teacher I admire', q:'Tell me about a teacher who has really inspired you and what they taught you.', ctx:'English essay read aloud to the class.', hint:'Describe who they are, what subject they teach, and one thing they said that stayed with you.' },
+        { t:'Study skills', q:'What study method works best for you — flashcards, notes, reading aloud?', ctx:'Peer learning session on study strategies.', hint:'Describe your method, give one example of when it worked, and explain why.' },
+        { t:'School excursion', q:'Describe a school trip or excursion you really enjoyed.', ctx:'Class discussion on learning outside the classroom.', hint:'Where did you go, what did you learn, and what was the best moment?' },
+      ]},
+      { id:'hobbies', label:'⚽ Sports & Hobbies', topics:[
+        { t:'Sport I play', q:'Tell me about a sport or physical activity you enjoy. How do you play it?', ctx:'PE class — introducing yourself to new teammates.', hint:'Name the sport, explain the rules briefly, and say your position or favourite part.' },
+        { t:'My hobby', q:'What is a hobby you are really passionate about and how did you get started?', ctx:'Show-and-tell on personal interests.', hint:'Describe the hobby, how you learned, and what you enjoy most about it.' },
+        { t:'Watching sport', q:'Is there a sport you love watching? Who is your favourite team or player?', ctx:'Sports discussion club meeting.', hint:'Name the sport, the team or player, and what makes them special to you.' },
+        { t:'Weekend activity', q:'Describe your ideal Saturday — what would you do from morning to night?', ctx:'Creative writing warm-up in English class.', hint:'Use time words like "first", "then", "after that" to structure your answer.' },
+      ]},
+      { id:'community', label:'🌆 Places & Community', topics:[
+        { t:'My neighbourhood', q:'Describe your neighbourhood. What do you like and dislike about it?', ctx:'Civic studies class discussion on where we live.', hint:'Talk about buildings, people, safety, and one thing you would change.' },
+        { t:'A local hero', q:'Tell me about someone in your community who makes a difference.', ctx:'Community service week at school.', hint:'Who are they, what do they do, and how have they helped others?' },
+        { t:'Shopping trip', q:'Describe a recent shopping trip. What did you buy and why?', ctx:'Role play at the shopping mall.', hint:'Say where you went, what you were looking for, and how you made your choice.' },
+        { t:'Public transport', q:'How do you get to school? What are the pros and cons of your transport?', ctx:'Geography lesson on infrastructure.', hint:'Describe your route, how long it takes, and if there is a better option.' },
+      ]},
+      { id:'health', label:'💊 Health & Wellbeing', topics:[
+        { t:'Healthy eating', q:'What does a healthy meal look like to you? Do you eat healthy food?', ctx:'Health and life skills class discussion.', hint:'Describe one healthy meal, why it is good for you, and one unhealthy food you find hard to resist.' },
+        { t:'Exercise routine', q:'How do you stay active? Do you have a regular exercise routine?', ctx:'Physical education and health class.', hint:'Name the activity, how often, and how it makes you feel.' },
+        { t:'Mental health', q:'What do you do when you feel stressed or worried about something?', ctx:'School counsellor check-in or wellness week.', hint:'Describe one strategy that helps you calm down or feel better.' },
+        { t:'Screen time', q:'How much time do you spend on screens daily? Is it too much?', ctx:'Technology and health class debate starter.', hint:'Be honest about how much time, what you do, and whether you think it is balanced.' },
+      ]},
+      { id:'technology', label:'💻 Technology & Media', topics:[
+        { t:'Social media', q:'Do you use social media? What do you like or not like about it?', ctx:'Media literacy class discussion.', hint:'Name platforms you use, one positive thing, and one risk to watch out for.' },
+        { t:'Favourite app', q:'What is your favourite app or website and why do you use it so much?', ctx:'Tech show-and-tell in class.', hint:'Name the app, describe what it does, and explain why you like it more than others.' },
+        { t:'Online safety', q:'What are three rules everyone should follow to stay safe online?', ctx:'Digital citizenship awareness week presentation.', hint:'Think about passwords, sharing personal info, and talking to strangers online.' },
+        { t:'Video games', q:'Do you play video games? Are they good or bad for young people?', ctx:'Debate starter in media class.', hint:'Give a balanced answer — one benefit and one risk, then share your personal view.' },
+      ]},
+    ]
+  },
+  3: {
+    categories: [
+      { id:'career', label:'🚀 Career & Future', topics:[
+        { t:'My career ambition', q:'What career are you considering after school and why? How are you preparing for it?', ctx:'Career guidance week — presenting your professional ambitions.', hint:'Describe the career, explain why it interests you, and mention one step you are taking toward it.' },
+        { t:'University vs vocational', q:'Is university always the best path after school, or are there better alternatives?', ctx:'Grade 12 life skills discussion on post-school options.', hint:'Compare university, trade skills, and entrepreneurship using real examples.' },
+        { t:'Leadership skills', q:'What qualities make a great leader, and do you think you have them?', ctx:'Student council nomination discussion.', hint:'Name three leadership qualities, give a real example of each, and honestly assess yourself.' },
+        { t:'Entrepreneurship', q:'If you could start any business, what would it be and how would it work?', ctx:'Economics class entrepreneurship pitch.', hint:'Describe the product or service, identify your target customer, and explain why it would succeed.' },
+      ]},
+      { id:'social', label:'🌍 Society & Rights', topics:[
+        { t:'Human rights', q:'What is the most important human right in your opinion, and is it being upheld globally?', ctx:'Human rights day awareness presentation.', hint:'Define the right, give a global example where it is violated, and suggest one solution.' },
+        { t:'Gender equality', q:'How equal are opportunities for girls and boys in your school and community?', ctx:'Gender equality awareness week panel discussion.', hint:'Give two specific examples — one where equality exists, one where it does not.' },
+        { t:'Poverty and inequality', q:'What do you think is the root cause of poverty, and whose responsibility is it to fix it?', ctx:'Social studies essay read aloud.', hint:'Distinguish between structural and individual causes, and argue for a specific solution.' },
+        { t:'Immigration', q:'How should countries balance welcoming immigrants with managing resources and culture?', ctx:'Current affairs discussion in social studies.', hint:'Address the economic, cultural, and humanitarian dimensions of immigration policy.' },
+        { t:'Youth activism', q:'Can young people genuinely change the world, or is activism just symbolic?', ctx:'Youth leadership conference speech.', hint:'Cite real youth-led movements, discuss what has changed, and share your own experience or intention.' },
+      ]},
+      { id:'environment', label:'🌱 Environment & Climate', topics:[
+        { t:'Climate crisis', q:'Is the climate crisis the defining challenge of your generation? What will you personally do about it?', ctx:'Environmental science class reflection.', hint:'Acknowledge the urgency, describe one personal action, and mention one systemic change needed.' },
+        { t:'Plastic pollution', q:'Should single-use plastics be completely banned, even if it costs more?', ctx:'Environmental policy debate.', hint:'Weigh convenience vs environmental damage. Address who it affects most — rich vs poor.' },
+        { t:'Renewable energy', q:'Should your country invest all its energy budget in renewables, even during the transition period?', ctx:'Economics and environment interdisciplinary class.', hint:'Discuss energy security, jobs in fossil fuels, and the long-term cost-benefit.' },
+        { t:'Animal extinction', q:'Should we spend billions saving endangered species when humans are also suffering?', ctx:'Ethics and environment class debate.', hint:'Compare biodiversity value, ecosystem services, and opportunity cost of conservation funding.' },
+      ]},
+      { id:'tech_society', label:'💡 Technology & Society', topics:[
+        { t:'AI and jobs', q:'Will artificial intelligence create more opportunities than it destroys for your generation?', ctx:'Technology and economics class panel discussion.', hint:'Consider which jobs AI replaces, which new roles emerge, and what skills will be irreplaceable.' },
+        { t:'Privacy online', q:'In a world where everything is tracked online, is real privacy still possible?', ctx:'Digital rights and ethics discussion.', hint:'Define privacy, give examples of tracking, and discuss where the boundary should be.' },
+        { t:'Social media mental health', q:'Is social media making young people more anxious, or is it being unfairly blamed?', ctx:'Psychology and media class debate.', hint:'Cite studies, distinguish between different platforms, and give a nuanced personal view.' },
+        { t:'Fake news', q:'Who is responsible for stopping the spread of misinformation — governments, tech companies, or individuals?', ctx:'Media literacy and civics class.', hint:'Assign responsibility to each actor, give one example of harm caused, and propose a solution.' },
+      ]},
+      { id:'global', label:'🌐 Global Issues', topics:[
+        { t:'Refugee crisis', q:'Do wealthy nations have a moral duty to accept refugees, regardless of the economic cost?', ctx:'Global issues and ethics class.', hint:'Distinguish economic migrants from refugees, cite the Refugee Convention, and argue your moral position.' },
+        { t:'Voting age', q:'Should the voting age be lowered to 16? Are teenagers mature enough to vote?', ctx:'Civics and democracy class debate.', hint:'Use data on civic engagement, brain development, and who is most affected by policy decisions.' },
+        { t:'Space exploration', q:'Is spending on space exploration justified when so many people lack clean water and food?', ctx:'Ethics and priorities global issues class.', hint:'Use opportunity cost analysis, mention spin-off technologies, and distinguish government vs private funding.' },
+        { t:'Global health', q:'Should wealthy countries donate COVID vaccines and medicines to poorer nations for free?', ctx:'Global health and equity class discussion.', hint:'Address vaccine nationalism, intellectual property rights, and the argument for global health as a public good.' },
+        { t:'Education access', q:'Is free quality education for every child in the world achievable, and how would we pay for it?', ctx:'UN Sustainable Development Goals class project.', hint:'Estimate costs, identify funding sources, and address the political will required.' },
+      ]},
+    ]
+  }
+};
+
+// DEBATE & DISCUSSION TOPICS
+const DD_TOPICS = {
+  debate: {
+    categories: [
+      { id:'tech', label:'💻 Technology & AI', topics:[
+        { t:'AI — help or harm?', q:'Artificial intelligence will do more harm than good to society.', ctx:'A central question in the age of automation and machine learning.', hint:'Define the scope of AI (job loss, bias, creativity, warfare). Present evidence for both harms and benefits before taking a position.' },
+        { t:'Social media ban under 16', q:'Social media platforms should be banned for users under 16.', ctx:'Several countries including Australia are debating this legislation.', hint:'Weigh mental health research, freedom of access, enforcement challenges, and alternative approaches.' },
+        { t:'AI in creative arts', q:'Artificial intelligence should not be allowed to create or sell art, music, or literature.', ctx:'Generative AI is disrupting the creative industry.', hint:'Consider originality, copyright, economic impact on artists, and what "creativity" really means.' },
+        { t:'Screen time limits', q:'Governments should set legal limits on daily screen time for children under 14.', ctx:'Screen addiction is growing among younger generations.', hint:'Debate parental rights vs government intervention, mental health data, and practicality of enforcement.' },
+      ]},
+      { id:'env', label:'🌍 Environment', topics:[
+        { t:'Fossil fuel ban', q:'All fossil fuel extraction should be banned globally by 2030.', ctx:'The IPCC warns we have little time left to prevent catastrophic warming.', hint:'Balance climate urgency against economic disruption, energy poverty, and transition timelines.' },
+        { t:'Plastic ban', q:'A global ban on single-use plastics by 2030 is both necessary and achievable.', ctx:'Plastic pollution is entering the food chain worldwide.', hint:'Address alternatives, economic impact on lower-income communities, and enforcement mechanisms.' },
+        { t:'Meat consumption', q:'Eating meat should be taxed at the same rate as tobacco to fight climate change.', ctx:'Livestock farming contributes significantly to greenhouse gas emissions.', hint:'Weigh health choices, cultural traditions, environmental impact, and whether taxation is the right tool.' },
+        { t:'Nuclear energy', q:'Nuclear power is essential for a clean energy future and should be rapidly expanded.', ctx:'Nuclear produces minimal carbon but raises safety and waste concerns.', hint:'Compare safety statistics vs public perception, compare cost and speed to renewable alternatives.' },
+      ]},
+      { id:'education', label:'📚 Education', topics:[
+        { t:'Free university', q:'University education should be completely free for all students worldwide.', ctx:'Student debt is a global crisis affecting millions of graduates.', hint:'Explore funding models, the value of education as a public good, and who benefits most from higher education.' },
+        { t:'Homework ban', q:'Homework should be banned in all primary and secondary schools.', ctx:'Evidence on the benefit of homework is mixed, especially in primary school.', hint:'Consider effectiveness evidence, equity (not all homes support learning), and teacher workload.' },
+        { t:'Online vs classroom', q:'Online learning is more effective than traditional classroom learning for high school students.', ctx:'Accelerated by COVID, online education is now mainstream.', hint:'Debate access, engagement, social development, teacher relationships, and outcomes data.' },
+        { t:'Compulsory service', q:'All school leavers should be required to complete one year of community or national service.', ctx:'Several countries already have this policy.', hint:'Weigh civic benefits, personal freedom, cost, and alternatives like incentivised volunteering.' },
+      ]},
+      { id:'rights', label:'⚖️ Rights & Society', topics:[
+        { t:'Refugee duty', q:'Wealthy nations have an absolute moral duty to accept refugees, regardless of economic cost.', ctx:'Forced displacement has reached record levels globally.', hint:'Discuss the Refugee Convention, burden sharing, integration challenges, and the moral argument.' },
+        { t:'Voting age 16', q:'The voting age should be lowered to 16 in all democratic countries.', ctx:'Some nations already allow 16-year-olds to vote in local or national elections.', hint:'Address civic maturity, taxation without representation, and who is most affected by long-term policies.' },
+        { t:'Gender quotas', q:'Companies and governments should be required by law to have at least 50% women in leadership.', ctx:'Gender gaps in leadership remain wide globally.', hint:'Debate merit vs representation, systemic barriers, and outcomes data from countries with quotas.' },
+        { t:'Drug legalisation', q:'Cannabis should be fully legalised and regulated in all countries.', ctx:'Several countries and states have already legalised recreational cannabis.', hint:'Compare health outcomes, criminal justice, tax revenue, and lessons from countries that have legalised.' },
+      ]},
+      { id:'global', label:'🌐 Global Issues', topics:[
+        { t:'Space vs poverty', q:'Space exploration funding should be redirected entirely to ending world poverty.', ctx:'Billions are spent on space while millions lack clean water.', hint:'Use opportunity cost analysis, argue about spinoff technologies, and consider who funds space (private vs government).' },
+        { t:'AI regulation', q:'A global treaty should govern the development and deployment of artificial intelligence.', ctx:'AI is advancing faster than governments can regulate it.', hint:'Discuss sovereignty, enforceability, innovation stifling, and precedent from nuclear arms treaties.' },
+        { t:'Wealth tax', q:'Billionaires should not exist — extreme wealth should be taxed away above a certain level.', ctx:'Wealth inequality has reached historic levels globally.', hint:'Address incentive effects, capital flight, what the threshold should be, and what the money would fund.' },
+      ]},
+    ]
+  },
+  discuss: {
+    categories: [
+      { id:'life', label:'🌟 Life & Identity', topics:[
+        { t:'Who am I?', q:'How would you describe your identity — what makes you uniquely you?', ctx:'A personal reflection conversation.', hint:'Think about culture, values, interests, and experiences that have shaped you.' },
+        { t:'Failure and growth', q:'Tell me about a time you failed at something important. What did you learn?', ctx:'A growth mindset conversation with your AI partner.', hint:'Describe the situation, your feelings, what went wrong, and most importantly, what changed in you.' },
+        { t:'Courage', q:'When did you show courage? It doesn\'t have to be dramatic — small brave moments count.', ctx:'A reflective discussion on personal values.', hint:'Share the moment, what scared you, and what the outcome was.' },
+        { t:'Your heroes', q:'Who is someone you deeply admire — living or historical — and what can we learn from them?', ctx:'A values and inspiration discussion.', hint:'Describe who they are, what they did, and one specific lesson you take from their life.' },
+      ]},
+      { id:'future', label:'🔮 Future & Society', topics:[
+        { t:'World in 2050', q:'What do you think the world will look like in 2050 — better or worse than today?', ctx:'A future-thinking discussion with your AI partner.', hint:'Pick three areas (technology, environment, society) and give a prediction for each with reasoning.' },
+        { t:'Technology and happiness', q:'Has technology made people genuinely happier, or just busier?', ctx:'A philosophical discussion about modern life.', hint:'Define happiness, give examples of how technology helps and hinders it, and share your personal experience.' },
+        { t:'What matters most', q:'If you had to choose only three things that make life meaningful, what would they be?', ctx:'A values and philosophy conversation.', hint:'Name your three things, explain why each matters more than others, and share a personal story for one of them.' },
+        { t:'Changing the world', q:'Is it realistic for one ordinary person to genuinely change the world? Discuss.', ctx:'An inspiration and impact discussion.', hint:'Give examples of ordinary people who made a difference, then reflect on your own potential.' },
+      ]},
+      { id:'culture', label:'🎨 Culture & Creativity', topics:[
+        { t:'Music and emotion', q:'How does music affect your mood and thinking? Is there a song that changed how you see life?', ctx:'A cultural and personal discussion.', hint:'Describe the type of music you love, how it makes you feel, and share the story behind a meaningful song.' },
+        { t:'Books vs screens', q:'Are books becoming irrelevant in a world of YouTube, TikTok, and podcasts?', ctx:'A media and culture discussion.', hint:'Compare depth of learning, attention spans, the joy of reading, and whether format really matters.' },
+        { t:'Cultural identity', q:'How do you balance your cultural heritage with living in a modern globalised world?', ctx:'A discussion on identity, tradition, and change.', hint:'Give an example of a tradition you maintain, one you have adapted, and one you think should change.' },
+        { t:'Art and AI', q:'If AI can produce beautiful art and music, does human-made art still have value?', ctx:'A philosophy of art and creativity discussion.', hint:'Define what makes art valuable — the process, the emotion, the story behind it, or the result.' },
+      ]},
+      { id:'school_life', label:'🏫 School & Growing Up', topics:[
+        { t:'Peer pressure', q:'How do you handle peer pressure? Has it ever made you do something you regretted?', ctx:'A personal wellbeing conversation.', hint:'Describe a moment honestly, explain how you handled it, and what you would do differently.' },
+        { t:'Social media and self-image', q:'Does social media make you feel better or worse about yourself? Be honest.', ctx:'A wellbeing and identity discussion.', hint:'Describe specific experiences, discuss comparison culture, and talk about what you do to maintain perspective.' },
+        { t:'Friendship', q:'What makes a true friend, and do you think you are a good friend yourself?', ctx:'A values and relationships conversation.', hint:'Define your top qualities of a true friend, give an example of friendship you\'ve experienced, and honestly reflect on yourself.' },
+        { t:'Dreams vs reality', q:'Is it responsible to "follow your dreams" or should you be more practical about your future?', ctx:'A career and life choices conversation.', hint:'Give examples of both dreamers who succeeded and those who compromised — then share your own philosophy.' },
+      ]},
+    ]
+  }
+};
+
+const BADGES = [
+  {id:'first_word',    icon:'🗣️', name:'First Word',       desc:'Send your first response'},
+  {id:'fluent3',       icon:'✨', name:'Fluent Start',      desc:'Complete 3 practice topics'},
+  {id:'grammar_ace',   icon:'📝', name:'Grammar Ace',       desc:'Score 90%+ on grammar'},
+  {id:'debate_rookie', icon:'⚖️', name:'Debate Rookie',     desc:'Start your first debate'},
+  {id:'streak_star',   icon:'🔥', name:'Streak Star',       desc:'Reach a 5-response streak'},
+  {id:'mic_pro',       icon:'🎙️', name:'Mic Pro',           desc:'Use voice input 5 times'},
+  {id:'global_thinker',icon:'🌍', name:'Global Thinker',    desc:'Discuss 3 different global topics'},
+  {id:'vocab200',      icon:'📚', name:'Vocab Builder',     desc:'Earn 200 XP'},
+  {id:'debate_champ',  icon:'🏆', name:'Debate Champion',   desc:'Complete 5 debate exchanges'},
+  {id:'lingo_legend',  icon:'🦜', name:'Lingo Legend',      desc:'Earn 500 XP total'},
+];
+
+/* ═══════════════════════════════════════════════
+   STATE
+/* ═══════════════════════════════
+   STATE
+═══════════════════════════════ */
+let studentName='', grade=1, level='beginner';
+let xp=0, streak=0, totalResponses=0;
+let currentCatIdx=0, currentTopicIdx=0;
+let hintStates={};
+let practiceHistory=[], debateHistory=[];
+let debateMode='debate', dCatIdx=0, dTopicIdx=0, debateStarted=false;
+let voiceUses=0, debateRounds=0, topicsDiscussed=new Set();
+let earnedBadges=new Set();
+let practiceTopicsCompleted=0;
+let isRecordingP=false, isRecordingD=false, recogP=null, recogD=null;
+let sessionGramScores=[];
+let selectedGrade=0;
+
+/* ═══════════════════════════════
+   ONBOARDING
+═══════════════════════════════ */
+function selectGrade(g,el){
+  selectedGrade=g;
+  document.querySelectorAll('.grade-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  checkOb();
+}
+function checkOb(){
+  const n=document.getElementById('nameInput').value.trim();
+  document.getElementById('obBtn').disabled=!(n.length>=1&&selectedGrade>0);
+}
+function startApp(){
+  studentName=document.getElementById('nameInput').value.trim();
+  grade=selectedGrade;
+  document.getElementById('onboarding').style.display='none';
+  document.getElementById('app').style.display='block';
+  initApp();
+}
+function initApp(){
+  document.getElementById('hdrName').textContent=studentName;
+  document.getElementById('g812warn').style.display=grade<3?'block':'none';
+  const gp=document.querySelectorAll('#gradePills .pill');
+  gp.forEach(p=>p.className='pill');
+  gp[grade-1].className='pill ag';
+  updateCoachPersona();
+  buildPracticeDropdowns();
+  buildDebateDropdowns();
+  renderBadges();
+  updateStats();
+  greetStudent();
+}
+
+/* ═══════════════════════════════
+   PAGES
+═══════════════════════════════ */
+function showPage(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('act'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('act'));
+  document.getElementById('page-'+id).classList.add('act');
+  el.classList.add('act');
+}
+
+/* ═══════════════════════════════
+   GRADE / LEVEL
+═══════════════════════════════ */
+function setGrade(g,el){
+  grade=g;
+  document.querySelectorAll('#gradePills .pill').forEach(p=>p.className='pill');
+  el.className='pill ag';
+  currentCatIdx=0; currentTopicIdx=0;
+  document.getElementById('g812warn').style.display=g<3?'block':'none';
+  buildPracticeDropdowns();
+  updateCoachPersona();
+  clearPracticeChat();
+}
+function setLevel(l,el,cls){
+  level=l;
+  document.querySelectorAll('#levelPills .pill').forEach(p=>p.className='pill');
+  el.className='pill '+cls;
+}
+
+/* ═══════════════════════════════
+   COACH PERSONA
+═══════════════════════════════ */
+const COACH={
+  1:{emoji:'☀️',name:'Sunny',role:'Spoken English Teacher',av:'g1'},
+  2:{emoji:'🦜',name:'Lark', role:'Conversation Partner',  av:'g2'},
+  3:{emoji:'🤖',name:'Alex', role:'Discussion Partner',    av:'g3'},
+};
+function updateCoachPersona(){
+  const c=COACH[grade];
+  const av=document.getElementById('coachAv');
+  av.textContent=c.emoji; av.className='coach-av '+c.av;
+  const cn=document.getElementById('coachName');
+  cn.textContent=c.name; cn.className='coach-name '+c.av;
+  document.getElementById('coachRole').textContent=c.role;
+  document.getElementById('chipsWrap').style.display=grade===1?'block':'none';
+}
+function coachEmoji(){ return grade===1?'☀️':grade===3?'🤖':'🦜'; }
+
+/* ═══════════════════════════════
+   SYSTEM PROMPTS
+═══════════════════════════════ */
+function buildSystemPrompt(topicData, mode){
+  const n=studentName;
+
+  /* ── SUNNY – Grades 1-3 ── */
+  if(grade===1){
+    return `You are Sunny, a warm and lively spoken English teacher for young school children (Grades 1–3, ages 6–9).
+You are having a natural spoken conversation with ${n}. The topic is: "${topicData.q}"
+
+YOUR CHARACTER:
+You are like a favourite teacher who is also a real friend. You are curious, warm, funny, and genuinely interested in what ${n} says. You speak WITH children, not AT them. Think of this as a friendly classroom chat.
+
+HOW TO RESPOND — follow every rule:
+1. Read what ${n} just said and continue the conversation from there naturally — like a real person would.
+2. React to the meaning of what they shared. If they mention a name, a place, a feeling, or an event — respond to THAT specifically.
+3. Add something of your own — a thought, a feeling, a small story or observation — so this feels like a two-way conversation, not an interview.
+4. End with ONE simple, warm question that naturally follows what was just said.
+5. Keep it short: 2–3 sentences + your question.
+6. Use simple everyday words. Speak like you are talking out loud, not writing.
+7. One emoji is welcome if it feels natural — never forced.
+8. If ${n} made a grammar mistake, quietly use the correct form in your own reply — never point out the mistake.
+
+CRITICAL RULES — never break these:
+- NEVER repeat or quote what ${n} said back to them. React to it, don't echo it.
+- NEVER say "I want to hear more!" or "Tell me more!" — ask a real follow-up question instead.
+- NEVER use hollow praise: "Great answer!", "Well done!", "Good try!", "Excellent!" — just have a real conversation.
+- NEVER ask "What else can you tell me?" — it is too vague. Ask something specific.
+- NEVER start your reply with ${n}'s name as the very first word.
+- NEVER use the phrase "Ha, this is such a fun topic!" — it sounds scripted.
+- The conversation should feel like two people genuinely talking, not a teacher giving feedback.
+
+EXAMPLE — if ${n} says "My favourite teacher is Lima":
+BAD: "Ha, this is such a fun topic! If you could change one thing about this, what would it be?"
+GOOD: "Lima sounds like a really special teacher! What subject does she teach — is she strict or more relaxed in class?"
+
+After your conversational reply, on a NEW LINE write exactly:
+SCORES: GRAMMAR=[60-98] FLUENCY=[60-98] GRAM_TIP=[one gentle specific grammar note in 8 words] PRON_TIP=[one pronunciation tip for a word they used, 8 words]`;
+  }
+
+  /* ── LARK – Grades 4-7 ── */
+  if(grade===2){
+    return `You are Lark, a friendly and curious spoken English conversation partner for school students (Grades 4–7, ages 9–13).
+You are in a real back-and-forth conversation with ${n} about: "${topicData.q}"
+Context: ${topicData.ctx}
+
+YOUR CHARACTER:
+You are like a knowledgeable older friend — genuinely interested, honest, and a real conversation partner. Not a teacher marking work.
+
+HOW TO RESPOND:
+1. React genuinely to the meaning and substance of what ${n} just said.
+2. Add your own perspective, a related thought, or a real-world connection — make this feel two-sided.
+3. Ask ONE specific follow-up question that flows naturally from what was just shared.
+4. Keep it conversational: 3–4 sentences.
+5. If ${n} used incorrect grammar, use the correct form naturally in your own reply — never point it out.
+
+RULES:
+- Never echo or quote back what ${n} said.
+- No hollow praise: "Great response!", "That's wonderful!", "Amazing!" — just respond to the substance.
+- No vague questions like "What else do you think?" — be specific.
+
+After your reply, on a NEW LINE write:
+SCORES: GRAMMAR=[60-98] FLUENCY=[60-98] GRAM_TIP=[one specific grammar tip using their actual words, 12 words] PRON_TIP=[one vocabulary or pronunciation upgrade, 10 words]`;
+  }
+
+  /* ── ALEX – Grades 8-12, Debate ── */
+  if(mode==='debate'){
+    return `You are Alex, a sharp and neutral AI discussion partner for senior school students (Grades 8–12, ages 13–18).
+You are in a structured debate with ${n} on: "${topicData.q}"
+Context: ${topicData.ctx}
+
+YOUR CHARACTER:
+Intellectually engaged, genuinely neutral. You challenge every position fairly. You never take sides but you push thinking hard.
+
+HOW TO RESPOND:
+1. Engage directly with the specific argument ${n} just made — name what is strong and what it leaves unaddressed.
+2. Introduce one counter-perspective, real-world example, or logical complication.
+3. End with ONE probing question tied directly to what they said.
+4. 70–100 words. Direct and honest.
+5. Never use hollow affirmations. React to content, not the act of speaking.
+
+After your reply, on a NEW LINE write:
+SCORES: GRAMMAR=[60-98] ARGUMENT=[60-98] GRAM_TIP=[one precise grammar or vocabulary improvement, 12 words] ARG_TIP=[one tip to strengthen their argument's logic or evidence, 15 words]`;
+  }
+
+  /* ── ALEX – Grades 8-12, Discussion ── */
+  return `You are Alex, a thoughtful and curious AI conversation partner for senior school students (Grades 8–12, ages 13–18).
+You are in a genuine open conversation with ${n} about: "${topicData.q}"
+Context: ${topicData.ctx}
+
+YOUR CHARACTER:
+Like a smart, well-read friend who enjoys real conversations. Genuine, curious, and honest — not a coach or evaluator.
+
+HOW TO RESPOND:
+1. React to the meaning of what ${n} just shared — engage with the idea, experience, or feeling they described.
+2. Share your own perspective or a related thought — make this feel genuinely two-sided.
+3. Ask ONE natural follow-up question that comes from this conversation.
+4. 50–80 words. Sound like a person, not an AI assistant.
+5. Never echo or quote back what ${n} said.
+6. No hollow praise.
+
+After your reply, on a NEW LINE write:
+SCORES: GRAMMAR=[60-98] FLUENCY=[60-98] GRAM_TIP=[one specific grammar tip using their actual words, 12 words] PRON_TIP=[one vocabulary or expression upgrade, 12 words]`;
+}
+
+/* ═══════════════════════════════
+   PRACTICE DROPDOWNS
+═══════════════════════════════ */
+function buildPracticeDropdowns(){
+  const cats=PRACTICE_DATA[grade].categories;
+  const sel=document.getElementById('catSelect');
+  sel.innerHTML='';
+  cats.forEach((c,i)=>{
+    const o=document.createElement('option');
+    o.value=i; o.textContent=c.label; sel.appendChild(o);
+  });
+  currentCatIdx=0;
+  buildTopicDropdown();
+}
+function buildTopicDropdown(){
+  const topics=PRACTICE_DATA[grade].categories[currentCatIdx].topics;
+  const sel=document.getElementById('topicSelect');
+  sel.innerHTML='';
+  topics.forEach((t,i)=>{
+    const o=document.createElement('option');
+    o.value=i; o.textContent=t.t; sel.appendChild(o);
+  });
+  currentTopicIdx=0;
+  renderPracticePrompt();
+  buildChips();
+}
+function onCatChange(){
+  currentCatIdx=parseInt(document.getElementById('catSelect').value);
+  currentTopicIdx=0;
+  buildTopicDropdown();
+  clearPracticeChat();
+}
+function onTopicChange(){
+  currentTopicIdx=parseInt(document.getElementById('topicSelect').value);
+  renderPracticePrompt();
+  clearPracticeChat();
+  hintStates['pHint']=false;
+  document.getElementById('pHint').style.display='none';
+}
+function currentTopic(){
+  return PRACTICE_DATA[grade].categories[currentCatIdx].topics[currentTopicIdx];
+}
+function renderPracticePrompt(){
+  const t=currentTopic();
+  const total=PRACTICE_DATA[grade].categories[currentCatIdx].topics.length;
+  document.getElementById('pQuestion').textContent=t.q;
+  document.getElementById('pCtx').textContent='📍 '+t.ctx;
+  document.getElementById('pCtx').style.display='block';
+  document.getElementById('pHint').textContent='💡 Hint: '+t.hint;
+  document.getElementById('pNum').textContent=`Topic ${currentTopicIdx+1} of ${total}`;
+  document.getElementById('fbCard').style.display='none';
+  document.getElementById('encourageBox').style.display='none';
+  renderPDots();
+}
+function renderPDots(){
+  const total=PRACTICE_DATA[grade].categories[currentCatIdx].topics.length;
+  const row=document.getElementById('pDots');
+  row.innerHTML='';
+  const shown=Math.min(total,8);
+  for(let i=0;i<shown;i++){
+    const d=document.createElement('div');
+    d.className='pdot'+(i<currentTopicIdx?' done':'')+(i===currentTopicIdx?' cur':'');
+    const _i=i;
+    d.onclick=()=>{currentTopicIdx=_i;document.getElementById('topicSelect').value=_i;renderPracticePrompt();clearPracticeChat();};
+    row.appendChild(d);
+  }
+  const lbl=document.createElement('div');
+  lbl.className='pdot-lbl';
+  lbl.textContent=`${currentTopicIdx+1} / ${total}`;
+  row.appendChild(lbl);
+}
+function nextTopic(){
+  const total=PRACTICE_DATA[grade].categories[currentCatIdx].topics.length;
+  currentTopicIdx=(currentTopicIdx+1)%total;
+  document.getElementById('topicSelect').value=currentTopicIdx;
+  hintStates['pHint']=false;
+  document.getElementById('pHint').style.display='none';
+  renderPracticePrompt();
+  clearPracticeChat();
+}
+function shuffleTopic(){
+  const total=PRACTICE_DATA[grade].categories[currentCatIdx].topics.length;
+  currentTopicIdx=Math.floor(Math.random()*total);
+  document.getElementById('topicSelect').value=currentTopicIdx;
+  renderPracticePrompt();
+  clearPracticeChat();
+}
+
+/* ═══════════════════════════════
+   QUICK CHIPS
+═══════════════════════════════ */
+const CHIPS_BY_CAT={
+  school: ['My teacher is…','I like school because…','At break time I…','My favourite class is…'],
+  family: ['My family has…','On weekends we…','My favourite meal is…','I help at home by…'],
+  animals:['My favourite animal is…','I have a pet…','Animals are…','I once saw a…'],
+  fun:    ['I love playing…','My favourite game is…','On Saturdays I…','I like to draw…'],
+  myself: ['My name is…','I am in grade…','I love…','My best friend is…'],
+};
+function buildChips(){
+  if(grade!==1)return;
+  const catId=PRACTICE_DATA[1].categories[currentCatIdx].id;
+  const chips=CHIPS_BY_CAT[catId]||['I like…','I see…','I feel…','I want to…'];
+  const row=document.getElementById('chipsRow');
+  row.innerHTML='';
+  chips.forEach(c=>{
+    const btn=document.createElement('div');
+    btn.className='chip'; btn.textContent=c;
+    btn.onclick=()=>{const inp=document.getElementById('chatIp');inp.value=c;inp.focus();};
+    row.appendChild(btn);
+  });
+}
+
+/* ═══════════════════════════════
+   HINT
+═══════════════════════════════ */
+function toggleHint(id){
+  hintStates[id]=!hintStates[id];
+  document.getElementById(id).style.display=hintStates[id]?'block':'none';
+}
+
+/* ═══════════════════════════════
+   GREETING
+═══════════════════════════════ */
+function greetStudent(){
+  let tq='';
+  try{tq=currentTopic().q;}catch(e){}
+  const g={
+    1: tq
+      ? `Hi ${studentName}! ☀️ I'm Sunny, your English teacher. Today's topic is: "${tq}" — Just tell me whatever comes to mind. Even one sentence is a great start!`
+      : `Hi ${studentName}! ☀️ I'm Sunny. Pick a topic above and let's start talking!`,
+    2: tq
+      ? `Hey ${studentName}! I'm Lark. Today we're talking about: "${tq}" — Jump in with your first thought. I'll respond like a real conversation partner.`
+      : `Hey ${studentName}! I'm Lark — choose a topic above and let's have a proper conversation.`,
+    3: tq
+      ? `Hi ${studentName}. I'm Alex. Our topic: "${tq}" — Share your first take. I'll engage directly with what you actually say.`
+      : `Hi ${studentName}. I'm Alex — select a topic above and share your perspective.`,
+  };
+  addAiMsg(g[grade],'chatWin');
+}
+
+function clearPracticeChat(){
+  document.getElementById('chatWin').innerHTML='';
+  practiceHistory.length=0;
+  sessionGramScores=[];
+  document.getElementById('fbCard').style.display='none';
+  document.getElementById('encourageBox').style.display='none';
+  greetStudent();
+}
+
+/* ═══════════════════════════════
+   SEND PRACTICE
+═══════════════════════════════ */
+async function sendPractice(){
+  const inp=document.getElementById('chatIp');
+  const val=inp.value.trim();
+  if(!val)return;
+  inp.value='';
+  document.getElementById('sendBtn').disabled=true;
+
+  const t=currentTopic();
+  addUserMsg(val,'chatWin');
+  practiceHistory.push({role:'user',content:val});
+  addThinking('chatWin','pThink');
+  awardBadge('first_word');
+  totalResponses++;
+  document.getElementById('ovResp').textContent=totalResponses;
+
+  try{
+    const raw=await callClaude(buildSystemPrompt(t,'practice'),practiceHistory);
+    removeEl('pThink');
+    const {reply,scores}=parseResponse(raw);
+    addAiMsg(reply,'chatWin');
+    practiceHistory.push({role:'assistant',content:reply});
+    showPracticeFeedback(scores);
+    addXP(15);
+    practiceTopicsCompleted++;
+    sessionGramScores.push(scores.grammar);
+    checkBadges(scores);
+    showEncourage(scores);
+  }catch(e){
+    removeEl('pThink');
+    // Contextual fallback — references the actual topic
+    const t2=currentTopic();
+    const fb={
+      1:[
+        `That sounds interesting! What do you like most about that?`,
+        `Oh really? And how does that make you feel?`,
+        `That's cool! Do your friends feel the same way, or is it just you?`,
+        `Wow, tell me more about that — what happens next?`,
+      ],
+      2:[
+        `That's an interesting perspective. Can you give me one specific example that supports what you just said?`,
+        `I see where you're coming from. Do you think most people your age would agree with you?`,
+        `That raises a good question. What would change your mind about this?`,
+      ],
+      3:[
+        `That's a reasonable position. What's the strongest argument against it, and how would you respond?`,
+        `Interesting. What specific evidence would you use to defend that in a formal debate?`,
+        `Good starting point. Where does that argument have its biggest weakness?`,
+      ],
+    };
+    const opts=fb[grade];
+    addAiMsg(opts[Math.floor(Math.random()*opts.length)],'chatWin');
+  }
+  document.getElementById('sendBtn').disabled=false;
+}
+
+function showPracticeFeedback(scores){
+  const fc=document.getElementById('fbCard');
+  fc.style.display='block';
+  setTimeout(()=>{
+    document.getElementById('fbGram').style.width=scores.grammar+'%';
+    document.getElementById('fbPron').style.width=scores.fluency+'%';
+  },80);
+  document.getElementById('fbGramN').textContent=scores.grammar+'%';
+  document.getElementById('fbPronN').textContent=scores.fluency+'%';
+  document.getElementById('fbGramTip').textContent=scores.gramTip;
+  document.getElementById('fbPronTip').textContent=scores.pronTip;
+}
+
+function showEncourage(scores){
+  const box=document.getElementById('encourageBox');
+  const n=sessionGramScores.length;
+  const avg=n?Math.round(sessionGramScores.reduce((a,b)=>a+b,0)/n):0;
+  const prev=n>=2?sessionGramScores[n-2]:null;
+  const curr=scores.grammar;
+  let msg='';
+  if(curr>=93) msg=`Grammar score: ${curr}% — very well constructed. 🎯`;
+  else if(prev!==null&&curr>=prev+6) msg=`Grammar improved: ${prev}% → ${curr}% this exchange. 📈`;
+  else if(prev!==null&&curr<=prev-9) msg=`Score dipped to ${curr}% — check the grammar tip and try rephrasing.`;
+  else if(n===5) msg=`5 exchanges in — session average: ${avg}%. ${avg>=80?'Solid session.':'Keep going!'}`;
+  else if(n>=3&&avg>=85) msg=`Session average: ${avg}% — speaking with good accuracy. 🦜`;
+  if(msg){box.textContent=msg;box.style.display='flex';}
+  else{box.style.display='none';}
+}
+
+/* ═══════════════════════════════
+   DEBATE PAGE
+═══════════════════════════════ */
+function buildDebateDropdowns(){
+  const data=DD_TOPICS[debateMode];
+  const sel=document.getElementById('dCatSelect');
+  sel.innerHTML='';
+  data.categories.forEach((c,i)=>{
+    const o=document.createElement('option');
+    o.value=i; o.textContent=c.label; sel.appendChild(o);
+  });
+  dCatIdx=0;
+  buildDebateTopicDropdown();
+}
+function buildDebateTopicDropdown(){
+  const topics=DD_TOPICS[debateMode].categories[dCatIdx].topics;
+  const sel=document.getElementById('dTopicSelect');
+  sel.innerHTML='';
+  topics.forEach((t,i)=>{
+    const o=document.createElement('option');
+    o.value=i; o.textContent=t.t; sel.appendChild(o);
+  });
+  dTopicIdx=0;
+  renderDebatePrompt();
+}
+function onDCatChange(){
+  dCatIdx=parseInt(document.getElementById('dCatSelect').value);
+  buildDebateTopicDropdown();
+  resetDebate();
+}
+function onDTopicChange(){
+  dTopicIdx=parseInt(document.getElementById('dTopicSelect').value);
+  renderDebatePrompt();
+  resetDebate();
+}
+function currentDebateTopic(){
+  return DD_TOPICS[debateMode].categories[dCatIdx].topics[dTopicIdx];
+}
+function renderDebatePrompt(){
+  const t=currentDebateTopic();
+  document.getElementById('dQuestion').textContent=t.q;
+  document.getElementById('dCtx').textContent='📍 '+t.ctx;
+  document.getElementById('dCtx').className='prompt-ctx '+debateMode;
+  document.getElementById('dHint').textContent='💡 Hint: '+t.hint;
+  document.getElementById('dHint').style.display=hintStates['dHint']?'block':'none';
+  document.getElementById('dTag').textContent=debateMode==='debate'?'Debate':'Discussion';
+  document.getElementById('dTag').className='prompt-tag '+debateMode;
+  document.getElementById('debateCard').className='prompt-card '+debateMode;
+}
+function setMode(mode,el){
+  debateMode=mode;
+  document.getElementById('modeDebate').className='mode-btn'+(mode==='debate'?' sel-debate':'');
+  document.getElementById('modeDiscuss').className='mode-btn'+(mode==='discuss'?' sel-discuss':'');
+  buildDebateDropdowns();
+  resetDebate();
+  document.getElementById('partnerAv').textContent=mode==='debate'?'⚖️':'💬';
+  document.getElementById('partnerName').textContent=mode==='debate'?'Alex — Debate Partner':'Alex — Discussion Partner';
+  document.getElementById('partnerDesc').textContent=mode==='debate'
+    ?'Neutral · Challenges every position · Probing questions'
+    :'Curious · Open exchange · Genuine two-way conversation';
+}
+function resetDebate(){
+  debateStarted=false;
+  document.getElementById('debateChatSection').style.display='none';
+  document.getElementById('dFbCard').style.display='none';
+  document.getElementById('debateWin').innerHTML='';
+  debateHistory.length=0;
+}
+function startDebate(){
+  debateStarted=true;
+  const t=currentDebateTopic();
+  const sec=document.getElementById('debateChatSection');
+  sec.style.display='block';
+  setTimeout(()=>sec.scrollIntoView({behavior:'smooth',block:'start'}),50);
+  document.getElementById('dFbCard').style.display='none';
+  document.getElementById('debateWin').innerHTML='';
+  debateHistory.length=0;
+  const opener=debateMode==='debate'
+    ? `Hi ${studentName}. I'm Alex.\n\nOur topic: "${t.q}"\n\nI'm your neutral partner — I won't take sides but I'll challenge whatever position you take, fairly and thoughtfully.\n\nWhat's your initial position, and what's your strongest reason for it?`
+    : `Hi ${studentName}. I'm Alex.\n\nLet's talk about: "${t.q}"\n\nNo right or wrong answers — this is an honest conversation and I'll share my thoughts too, not just ask questions.\n\nWhat comes to mind first when you think about this?`;
+  addDebateMsg(opener,'ai');
+  debateHistory.push({role:'assistant',content:opener});
+  awardBadge('debate_rookie');
+  topicsDiscussed.add(`${dCatIdx}-${dTopicIdx}`);
+  if(topicsDiscussed.size>=3)awardBadge('global_thinker');
+}
+
+async function sendDebate(){
+  const inp=document.getElementById('debateIp');
+  const val=inp.value.trim();
+  if(!val)return;
+  if(!debateStarted){showToast('⚠️','Click "Start discussion →" to begin first.');return;}
+  inp.value='';
+  document.getElementById('dSendBtn').disabled=true;
+  const t=currentDebateTopic();
+  addDebateMsg(val,'user');
+  debateHistory.push({role:'user',content:val});
+  addThinking('debateWin','dThink');
+  totalResponses++;
+  try{
+    const raw=await callClaude(buildSystemPrompt(t,'debate'),debateHistory);
+    removeEl('dThink');
+    const {reply,scores}=parseResponse(raw);
+    addDebateMsg(reply,'ai');
+    debateHistory.push({role:'assistant',content:reply});
+    showDebateFeedback(scores);
+    addXP(20);
+    debateRounds++;
+    if(debateRounds>=5)awardBadge('debate_champ');
+    if(scores.grammar>=90)awardBadge('grammar_ace');
+  }catch(e){
+    removeEl('dThink');
+    const fb=debateMode==='debate'
+      ?[
+        'That\'s a clear stance. Now name the strongest argument against your position — and explain why you still disagree with it.',
+        'Interesting. Can you back that up with a specific real-world example — a country, event, or study?',
+        'Good point. But consider who bears the cost of that position, and whether that is fair.',
+      ]:[
+        'That\'s worth thinking about more. What personal experience shapes that view for you?',
+        'Interesting — do people around you see this the same way, or differently?',
+        'I find that thought-provoking. What would change your mind on this?',
+      ];
+    addDebateMsg(fb[Math.floor(Math.random()*fb.length)],'ai');
+  }
+  document.getElementById('dSendBtn').disabled=false;
+}
+
+function showDebateFeedback(scores){
+  const fc=document.getElementById('dFbCard');
+  fc.style.display='block';
+  setTimeout(()=>{
+    document.getElementById('dFbGram').style.width=scores.grammar+'%';
+    document.getElementById('dFbArg').style.width=(scores.argument||scores.fluency)+'%';
+  },80);
+  document.getElementById('dFbGramN').textContent=scores.grammar+'%';
+  document.getElementById('dFbArgN').textContent=(scores.argument||scores.fluency)+'%';
+  document.getElementById('dFbGramTip').textContent=scores.gramTip;
+  document.getElementById('dFbArgTip').textContent=scores.argTip||scores.pronTip;
+}
+
+/* ═══════════════════════════════
+   CHAT HELPERS
+═══════════════════════════════ */
+function addAiMsg(text,winId){
+  const w=document.getElementById(winId); if(!w)return;
+  const cls=grade===1?'g1':grade===3?'':'';
+  const div=document.createElement('div');
+  div.className='msg ai'+(cls?' '+cls:'');
+  const av=document.createElement('div'); av.className='av'; av.textContent=coachEmoji();
+  const bub=document.createElement('div'); bub.className='bubble';
+  text.split('\n').forEach((line,i)=>{if(i>0)bub.appendChild(document.createElement('br'));bub.appendChild(document.createTextNode(line));});
+  div.appendChild(av); div.appendChild(bub);
+  w.appendChild(div); w.scrollTop=w.scrollHeight;
+}
+function addUserMsg(text,winId){
+  const w=document.getElementById(winId); if(!w)return;
+  const div=document.createElement('div'); div.className='msg user';
+  const av=document.createElement('div'); av.className='av'; av.textContent=studentName?studentName[0].toUpperCase():'Y';
+  const bub=document.createElement('div'); bub.className='bubble'; bub.textContent=text;
+  div.appendChild(av); div.appendChild(bub);
+  w.appendChild(div); w.scrollTop=w.scrollHeight;
+}
+function addDebateMsg(text,role){
+  const w=document.getElementById('debateWin'); if(!w)return;
+  const div=document.createElement('div');
+  div.className=role==='ai'?'msg ai debate':'msg user';
+  const av=document.createElement('div'); av.className='av';
+  av.textContent=role==='ai'?'🤖':(studentName?studentName[0].toUpperCase():'Y');
+  const bub=document.createElement('div'); bub.className='bubble';
+  text.split('\n').forEach((line,i)=>{if(i>0)bub.appendChild(document.createElement('br'));bub.appendChild(document.createTextNode(line));});
+  div.appendChild(av); div.appendChild(bub);
+  w.appendChild(div); w.scrollTop=w.scrollHeight;
+}
+function addThinking(winId,id){
+  const w=document.getElementById(winId); if(!w)return;
+  const div=document.createElement('div'); div.className='msg ai'; div.id=id;
+  div.innerHTML=`<div class="av">${coachEmoji()}</div><div class="bubble"><div class="thinking-dots"><span></span><span></span><span></span></div></div>`;
+  w.appendChild(div); w.scrollTop=w.scrollHeight;
+}
+function removeEl(id){const el=document.getElementById(id);if(el)el.remove();}
+
+/* ═══════════════════════════════
+   VOICE INPUT
+═══════════════════════════════ */
+function toggleVoice(btnId,inputId,isDebate){
+  const btn=document.getElementById(btnId);
+  const lblId=isDebate?'dVoiceLbl':'voiceLbl';
+  if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){
+    showToast('🎙️','Voice input requires Chrome or Edge.');
+    return;
+  }
+  const isRec=isDebate?isRecordingD:isRecordingP;
+  if(isRec){const r=isDebate?recogD:recogP;if(r)r.stop();return;}
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const r=new SR();
+  r.lang='en-US'; r.interimResults=false; r.maxAlternatives=1;
+  r.onresult=e=>{
+    document.getElementById(inputId).value=e.results[0][0].transcript;
+    voiceUses++;
+    if(voiceUses>=5)awardBadge('mic_pro');
+  };
+  const stop=()=>{
+    if(isDebate){isRecordingD=false;}else{isRecordingP=false;}
+    btn.classList.remove('rec');
+    document.getElementById(lblId).textContent='Speak';
+  };
+  r.onerror=stop; r.onend=stop;
+  r.start();
+  if(isDebate){isRecordingD=true;recogD=r;}else{isRecordingP=true;recogP=r;}
+  btn.classList.add('rec');
+  document.getElementById(lblId).textContent='Stop';
+}
+
+/* ═══════════════════════════════
+   PARSE RESPONSE
+═══════════════════════════════ */
+function parseResponse(raw){
+  const sl=raw.match(/\nSCORES:\s*(.+)/);
+  const reply=raw.replace(/\nSCORES:\s*.+/g,'').trim();
+  let grammar=78,fluency=75,argument=72;
+  let gramTip='Good effort — keep practising!';
+  let pronTip='Speak each word clearly and with confidence.';
+  let argTip='Back up your point with a specific real-world example.';
+  if(sl){
+    const s=sl[1];
+    const gm=s.match(/GRAMMAR=\[?(\d+)\]?/); if(gm)grammar=Math.min(99,Math.max(50,parseInt(gm[1])));
+    const fl=s.match(/FLUENCY=\[?(\d+)\]?/);  if(fl)fluency=Math.min(99,Math.max(50,parseInt(fl[1])));
+    const ag=s.match(/ARGUMENT=\[?(\d+)\]?/); if(ag)argument=Math.min(99,Math.max(50,parseInt(ag[1])));
+    const gt=s.match(/GRAM_TIP=\[([^\]]+)\]/); if(gt)gramTip=gt[1];
+    const pt=s.match(/PRON_TIP=\[([^\]]+)\]/); if(pt)pronTip=pt[1];
+    const at=s.match(/ARG_TIP=\[([^\]]+)\]/);  if(at)argTip=at[1];
+  }
+  return{reply,scores:{grammar,fluency,argument,gramTip,pronTip,argTip}};
+}
+
+/* ═══════════════════════════════
+   XP & BADGES
+═══════════════════════════════ */
+function addXP(amount){
+  xp+=amount; streak++;
+  updateStats();
+  if(streak>=5)awardBadge('streak_star');
+  spawnXPBurst(amount);
+}
+function updateStats(){
+  document.getElementById('hdrXP').textContent=xp;
+  document.getElementById('hdrStreak').textContent=streak;
+  document.getElementById('ovXP').textContent=xp;
+  document.getElementById('ovStreak').textContent=streak;
+  document.getElementById('ovResp').textContent=totalResponses;
+}
+function checkBadges(scores){
+  if(scores.grammar>=90)awardBadge('grammar_ace');
+  if(xp>=200)awardBadge('vocab200');
+  if(xp>=500)awardBadge('lingo_legend');
+  if(practiceTopicsCompleted>=3)awardBadge('fluent3');
+}
+function spawnXPBurst(amt){
+  const pill=document.getElementById('hdrXP')?.closest('.badge-pill');
+  if(!pill)return;
+  const r=pill.getBoundingClientRect();
+  const el=document.createElement('div');
+  el.className='xp-burst';
+  el.textContent='+'+amt+' XP';
+  el.style.cssText=`position:fixed;left:${r.left}px;top:${r.top}px;pointer-events:none;z-index:300;font-size:16px;font-weight:700;color:var(--green);animation:burst .9s ease forwards`;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),950);
+}
+function awardBadge(id){
+  if(earnedBadges.has(id))return;
+  earnedBadges.add(id);
+  renderBadges();
+  const b=BADGES.find(x=>x.id===id);
+  if(b)showToast(b.icon,'Badge unlocked: '+b.name+'!');
+}
+function renderBadges(){
+  const grid=document.getElementById('badgesGrid');
+  if(!grid)return;
+  grid.innerHTML='';
+  BADGES.forEach(b=>{
+    const el=document.createElement('div');
+    el.className='badge-card '+(earnedBadges.has(b.id)?'earned':'locked');
+    el.innerHTML=`<span class="b-icon">${b.icon}</span><div class="b-name">${b.name}</div><div class="b-desc">${b.desc}</div>`;
+    grid.appendChild(el);
+  });
+}
+
+/* ═══════════════════════════════
+   TOAST
+═══════════════════════════════ */
+let toastTimer=null;
+function showToast(icon,msg){
+  document.getElementById('toastIcon').textContent=icon;
+  document.getElementById('toastMsg').textContent=msg;
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  if(toastTimer)clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),3200);
+}
+
+/* ═══════════════════════════════
+   CLAUDE API
+═══════════════════════════════ */
+async function callClaude(systemPrompt,messages){
+  const res=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:500,
+      system:systemPrompt,
+      messages:messages.slice(-10)
+    })
+  });
+  const data=await res.json();
+  if(data.error)throw new Error(data.error.message);
+  return data.content[0].text;
+}
+</script></body></html>
